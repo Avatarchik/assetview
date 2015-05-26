@@ -1,0 +1,60 @@
+<!doctype html>
+<html class="no-js" lang="" ng-app="assetView">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Asset View</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <link rel="stylesheet" href="app.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-animate.min.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body ng-controller="AssetListCtrl">
+    <div class="wrapper">
+      <div class="header">
+        <div class="title">
+          <h1>Asset View</h1>
+        </div>
+        <div class="querybox">
+          <input type="text" ng-model="query"></input>
+        </div>
+      </div>
+      <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+      <div class="content">
+        <ul>
+          <li ng-click="$parent.detail=v" ng-repeat="v in assets | filter:query | limitTo: 1000 track by v.path">
+            <p>
+              <span class="left">{{v.path}}</span>
+              <span class="right" ng-class="'status-'+status[v.path]">{{status[v.path] || '-' }}</span>
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="dialog" ng-if="!!detail">
+        <div>
+          <div class="header">
+            <button ng-click="$parent.detail=null">x</button>
+          </div>
+          <div class="content">
+            <h1>{{detail.path}}</h1>
+            <table>
+              <tr><td>CRC</td><td>{{detail2.crc}}</td></tr>
+              <tr><td>CRC hex</td><td>{{detail2.crchex}}</td></tr>
+              <tr><td>UnityVersion</td><td>{{detail2.body.TypeTree.UnityVersion}}</td></tr>
+            </table>
+            <pre>{{detail | json}}</pre>
+            <pre>{{detail2 | json}}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
